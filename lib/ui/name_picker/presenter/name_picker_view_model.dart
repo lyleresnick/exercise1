@@ -1,36 +1,46 @@
 import 'package:exercise1/ui/name_picker/use_case/name_picker_presentation_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+part "name_picker_view_model.freezed.dart";
 
-class ViewRowModel {
-  final String startupName;
-  final bool isSelected;
-  ViewRowModel({required this.startupName, required this.isSelected});
+@freezed
+class ViewRowModel with _$ViewRowModel{
+  factory ViewRowModel({required String startupName, required bool isSelected}) = _ViewRowModel;
 }
 
-class ViewModel {
-  final bool canGoUp;
-  final bool canGoDown;
+@freezed
+class ViewModel with _$ViewModel {
 
-  final List<ViewRowModel> pageSubset;
-  final bool isNameSelected;
-  final bool isWaiting;
-  final String? selectedName;
+  factory ViewModel({
+    required bool canGoUp,
+    required bool canGoDown,
+    required List<ViewRowModel> pageSubset,
+    required bool isNameSelected,
+    @Default(false) bool isWaiting,
+    String? selectedName,
+  }) = _ViewModel;
 
-  ViewModel.fromPresentation(PresentationModel model)
-      : canGoDown = model.canGoDown,
-        canGoUp = model.canGoUp,
-        isNameSelected = model.selectedOrdinal != null,
-        isWaiting = model.isWaiting,
-        selectedName = model.selectedName,
-        pageSubset = model.pageSubset
-            .asMap()
-            .map((offset, suggestion) => MapEntry(
-                offset,
-                ViewRowModel(
-                    startupName: suggestion.startupName,
-                    isSelected: _isSelected(
-                        model.startOffset + offset, model.selectedOrdinal))))
-            .values
-            .toList();
+  static ViewModel fromPresentation(PresentationModel model) {
+    final canGoDown = model.startOffset + model.pageSize < model.listLength;
+
+    final canGoUp = model.startOffset > 0;
+
+    final isNameSelected = model.selectedOrdinal != null;
+    final isWaiting = model.isWaiting;
+    final selectedName = model.selectedName;
+    final pageSubset = model.pageSubset
+        .asMap()
+        .map((offset, suggestion) =>
+        MapEntry(
+            offset,
+            ViewRowModel(
+                startupName: suggestion.startupName,
+                isSelected: _isSelected(
+                    model.startOffset + offset, model.selectedOrdinal))))
+        .values
+        .toList();
+    return ViewModel(canGoDown: canGoDown, canGoUp: canGoUp, isNameSelected: isNameSelected,
+        isWaiting: isWaiting, selectedName: selectedName, pageSubset: pageSubset);
+  }
 
   static bool _isSelected(int currentOffset, int? selectedOrdinal) {
     if ((selectedOrdinal != null) && (selectedOrdinal == currentOffset))

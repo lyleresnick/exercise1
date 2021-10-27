@@ -1,24 +1,45 @@
 import 'package:exercise1/repo/startup_entity.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+part "name_picker_presentation_model.freezed.dart";
 
-class PresentationModel {
-  bool get canGoDown => startOffset + pageSize < listLength;
+@freezed
+class PresentationRowModel with _$PresentationRowModel{
+  factory PresentationRowModel({required String id, required String startupName}) = _PresentationRowModel;
+  static PresentationRowModel fromStartUpEntity(StartupEntity entity) {
+    return PresentationRowModel(id: entity.id, startupName: entity.startupName);
+  }
+}
 
-  bool get canGoUp => startOffset > 0;
-  final int startOffset;
+@freezed
+class PresentationModel with _$PresentationModel {
+  factory PresentationModel({
+    required int startOffset,
+    required List<PresentationRowModel> pageSubset,
+    required int listLength,
+    required int pageSize,
+    @Default(false) bool isWaiting,
+    int? selectedOrdinal,
+    String? selectedName
+  }) = _PresentationModel;
 
-  final List<StartupEntity> pageSubset;
-  final int listLength;
-  final int pageSize;
-  final bool isWaiting;
-  final int? selectedOrdinal;
-  final String? selectedName;
 
-  PresentationModel(
-      {required this.pageSubset,
-      required this.startOffset,
-      required this.listLength,
-      required this.pageSize,
-      this.selectedOrdinal,
-      this.isWaiting = false,
-      this.selectedName});
+  static PresentationModel fromState({
+    required int startOffset,
+    required List<StartupEntity> pageSubset,
+    required int listLength,
+    required int pageSize,
+    bool isWaiting = false,
+    int? selectedOrdinal,
+    String? selectedName
+  }) {
+
+    final pageSubsetPresentation = pageSubset.map((entity) => PresentationRowModel.fromStartUpEntity(entity)).toList();
+    return PresentationModel(startOffset: startOffset,
+        pageSubset: pageSubsetPresentation,
+        listLength: listLength,
+        pageSize: pageSize,
+        selectedOrdinal: selectedOrdinal,
+        isWaiting: isWaiting, selectedName: selectedName);
+  }
+
 }

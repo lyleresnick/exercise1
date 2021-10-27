@@ -198,6 +198,8 @@ abstract class _$PresentModelCopyWith<$Res> {
           _PresentModel value, $Res Function(_PresentModel) then) =
       __$PresentModelCopyWithImpl<$Res>;
   $Res call({ViewModel model});
+
+  $ViewModelCopyWith<$Res> get model;
 }
 
 /// @nodoc
@@ -221,6 +223,13 @@ class __$PresentModelCopyWithImpl<$Res>
           : model // ignore: cast_nullable_to_non_nullable
               as ViewModel,
     ));
+  }
+
+  @override
+  $ViewModelCopyWith<$Res> get model {
+    return $ViewModelCopyWith<$Res>(_value.model, (value) {
+      return _then(_value.copyWith(model: value));
+    });
   }
 }
 

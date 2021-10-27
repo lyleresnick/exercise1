@@ -1,4 +1,4 @@
-import 'package:exercise1/repo/repo.dart';
+import 'package:exercise1/repo/test_repo.dart';
 import 'package:exercise1/ui/app_state/name_picker_app_state.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_presenter.dart';
 import 'package:exercise1/ui/name_picker/use_case/name_picker_use_case.dart';
@@ -10,7 +10,7 @@ class NamePickerAssembly {
   NamePickerAssembly._(this.scene);
 
   factory NamePickerAssembly() {
-    final useCase = NamePickerUseCase(Repo.repo, NamePickerAppState.instance);
+    final useCase = NamePickerUseCase(TestRepo.repo, NamePickerAppState.instance);
     final presenter = NamePickerPresenter(useCase);
     final scene = NamePickerScene(presenter);
 

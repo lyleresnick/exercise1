@@ -33,7 +33,7 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
   }
 
   void _refreshPresentation({isWaiting = false, String? selectedName}) {
-    emit(NamePickerUseCaseOutput.presentModel(PresentationModel(
+    emit(NamePickerUseCaseOutput.presentModel(PresentationModel.fromState(
         pageSubset: _pageSubset,
         selectedOrdinal: _selectedOrdinal,
         startOffset: _startOffset,
@@ -66,6 +66,7 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
   }
 
   void eventShowName() {
+    _refreshPresentation(); //to thwart the Cubit from squelching duplicates (if show selection if pressed twice)
     _refreshPresentation(
         selectedName: _appState.suggestionList[_selectedOrdinal!].startupName);
   }
