@@ -18,7 +18,7 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
   NamePickerUseCase(this._repo, this._appState)
       : super(NamePickerUseCaseOutput.presentLoading());
 
-  void eventReady() async {
+  Future<void> eventReady() async {
     _appState.suggestionList = [];
     emit(NamePickerUseCaseOutput.presentLoading());
     final pairs = await _repo.getMoreSuggestions();
