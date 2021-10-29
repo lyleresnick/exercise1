@@ -1,4 +1,5 @@
 import 'package:exercise1/repo/repo.dart';
+import 'package:exercise1/repo/startup_entity.dart';
 import 'package:exercise1/ui/app_state/app_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +10,7 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
   final Repo _repo;
   final AppState _appState;
 
-  List<PresentationRowModel> _pageSubset = [];
+  List<StartupEntity> _pageSubset = [];
   int _startOffset = 0;
   final _pageSize = 5;
   int? _selectedOrdinal;
@@ -27,8 +28,7 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
 
   _refreshPage() {
     _pageSubset =
-        _appState.suggestionList.skip(_startOffset).take(_pageSize)
-        .map((entity) => PresentationRowModel.fromStartUpEntity(entity)).toList();
+        _appState.suggestionList.skip(_startOffset).take(_pageSize).toList();
     _refreshPresentation();
   }
 
