@@ -175,7 +175,6 @@ class _$PresentationModelTearOff {
       {required int startOffset,
       required List<PresentationRowModel> pageSubset,
       required int listLength,
-      required int pageSize,
       bool isWaiting = false,
       int? selectedOrdinal,
       String? selectedName}) {
@@ -183,7 +182,6 @@ class _$PresentationModelTearOff {
       startOffset: startOffset,
       pageSubset: pageSubset,
       listLength: listLength,
-      pageSize: pageSize,
       isWaiting: isWaiting,
       selectedOrdinal: selectedOrdinal,
       selectedName: selectedName,
@@ -200,7 +198,6 @@ mixin _$PresentationModel {
   List<PresentationRowModel> get pageSubset =>
       throw _privateConstructorUsedError;
   int get listLength => throw _privateConstructorUsedError;
-  int get pageSize => throw _privateConstructorUsedError;
   bool get isWaiting => throw _privateConstructorUsedError;
   int? get selectedOrdinal => throw _privateConstructorUsedError;
   String? get selectedName => throw _privateConstructorUsedError;
@@ -219,7 +216,6 @@ abstract class $PresentationModelCopyWith<$Res> {
       {int startOffset,
       List<PresentationRowModel> pageSubset,
       int listLength,
-      int pageSize,
       bool isWaiting,
       int? selectedOrdinal,
       String? selectedName});
@@ -239,7 +235,6 @@ class _$PresentationModelCopyWithImpl<$Res>
     Object? startOffset = freezed,
     Object? pageSubset = freezed,
     Object? listLength = freezed,
-    Object? pageSize = freezed,
     Object? isWaiting = freezed,
     Object? selectedOrdinal = freezed,
     Object? selectedName = freezed,
@@ -256,10 +251,6 @@ class _$PresentationModelCopyWithImpl<$Res>
       listLength: listLength == freezed
           ? _value.listLength
           : listLength // ignore: cast_nullable_to_non_nullable
-              as int,
-      pageSize: pageSize == freezed
-          ? _value.pageSize
-          : pageSize // ignore: cast_nullable_to_non_nullable
               as int,
       isWaiting: isWaiting == freezed
           ? _value.isWaiting
@@ -288,7 +279,6 @@ abstract class _$PresentationModelCopyWith<$Res>
       {int startOffset,
       List<PresentationRowModel> pageSubset,
       int listLength,
-      int pageSize,
       bool isWaiting,
       int? selectedOrdinal,
       String? selectedName});
@@ -310,7 +300,6 @@ class __$PresentationModelCopyWithImpl<$Res>
     Object? startOffset = freezed,
     Object? pageSubset = freezed,
     Object? listLength = freezed,
-    Object? pageSize = freezed,
     Object? isWaiting = freezed,
     Object? selectedOrdinal = freezed,
     Object? selectedName = freezed,
@@ -327,10 +316,6 @@ class __$PresentationModelCopyWithImpl<$Res>
       listLength: listLength == freezed
           ? _value.listLength
           : listLength // ignore: cast_nullable_to_non_nullable
-              as int,
-      pageSize: pageSize == freezed
-          ? _value.pageSize
-          : pageSize // ignore: cast_nullable_to_non_nullable
               as int,
       isWaiting: isWaiting == freezed
           ? _value.isWaiting
@@ -355,7 +340,6 @@ class _$_PresentationModel implements _PresentationModel {
       {required this.startOffset,
       required this.pageSubset,
       required this.listLength,
-      required this.pageSize,
       this.isWaiting = false,
       this.selectedOrdinal,
       this.selectedName});
@@ -366,8 +350,6 @@ class _$_PresentationModel implements _PresentationModel {
   final List<PresentationRowModel> pageSubset;
   @override
   final int listLength;
-  @override
-  final int pageSize;
   @JsonKey(defaultValue: false)
   @override
   final bool isWaiting;
@@ -378,7 +360,7 @@ class _$_PresentationModel implements _PresentationModel {
 
   @override
   String toString() {
-    return 'PresentationModel(startOffset: $startOffset, pageSubset: $pageSubset, listLength: $listLength, pageSize: $pageSize, isWaiting: $isWaiting, selectedOrdinal: $selectedOrdinal, selectedName: $selectedName)';
+    return 'PresentationModel(startOffset: $startOffset, pageSubset: $pageSubset, listLength: $listLength, isWaiting: $isWaiting, selectedOrdinal: $selectedOrdinal, selectedName: $selectedName)';
   }
 
   @override
@@ -394,9 +376,6 @@ class _$_PresentationModel implements _PresentationModel {
             (identical(other.listLength, listLength) ||
                 const DeepCollectionEquality()
                     .equals(other.listLength, listLength)) &&
-            (identical(other.pageSize, pageSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.pageSize, pageSize)) &&
             (identical(other.isWaiting, isWaiting) ||
                 const DeepCollectionEquality()
                     .equals(other.isWaiting, isWaiting)) &&
@@ -414,7 +393,6 @@ class _$_PresentationModel implements _PresentationModel {
       const DeepCollectionEquality().hash(startOffset) ^
       const DeepCollectionEquality().hash(pageSubset) ^
       const DeepCollectionEquality().hash(listLength) ^
-      const DeepCollectionEquality().hash(pageSize) ^
       const DeepCollectionEquality().hash(isWaiting) ^
       const DeepCollectionEquality().hash(selectedOrdinal) ^
       const DeepCollectionEquality().hash(selectedName);
@@ -430,7 +408,6 @@ abstract class _PresentationModel implements PresentationModel {
       {required int startOffset,
       required List<PresentationRowModel> pageSubset,
       required int listLength,
-      required int pageSize,
       bool isWaiting,
       int? selectedOrdinal,
       String? selectedName}) = _$_PresentationModel;
@@ -442,8 +419,6 @@ abstract class _PresentationModel implements PresentationModel {
       throw _privateConstructorUsedError;
   @override
   int get listLength => throw _privateConstructorUsedError;
-  @override
-  int get pageSize => throw _privateConstructorUsedError;
   @override
   bool get isWaiting => throw _privateConstructorUsedError;
   @override

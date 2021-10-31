@@ -38,7 +38,6 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
         selectedOrdinal: _selectedOrdinal,
         startOffset: _startOffset,
         listLength: _appState.suggestionList.length,
-        pageSize: _pageSize,
         isWaiting: isWaiting,
         selectedName: selectedName)));
   }

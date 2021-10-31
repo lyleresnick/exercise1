@@ -20,7 +20,7 @@ class ViewModel with _$ViewModel {
   }) = _ViewModel;
 
   static ViewModel fromPresentation(PresentationModel model) {
-    final canGoDown = model.startOffset + model.pageSize < model.listLength;
+    final canGoDown = model.startOffset + model.pageSubset.length < model.listLength;
 
     final canGoUp = model.startOffset > 0;
 

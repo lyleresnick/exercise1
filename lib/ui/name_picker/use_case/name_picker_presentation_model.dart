@@ -16,7 +16,6 @@ class PresentationModel with _$PresentationModel {
     required int startOffset,
     required List<PresentationRowModel> pageSubset,
     required int listLength,
-    required int pageSize,
     @Default(false) bool isWaiting,
     int? selectedOrdinal,
     String? selectedName
@@ -27,7 +26,6 @@ class PresentationModel with _$PresentationModel {
     required int startOffset,
     required List<StartupEntity> pageSubset,
     required int listLength,
-    required int pageSize,
     bool isWaiting = false,
     int? selectedOrdinal,
     String? selectedName
@@ -37,7 +35,6 @@ class PresentationModel with _$PresentationModel {
     return PresentationModel(startOffset: startOffset,
         pageSubset: pageSubsetPresentation,
         listLength: listLength,
-        pageSize: pageSize,
         selectedOrdinal: selectedOrdinal,
         isWaiting: isWaiting, selectedName: selectedName);
   }
