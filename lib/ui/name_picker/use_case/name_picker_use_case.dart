@@ -1,12 +1,12 @@
 import 'package:exercise1/repo/repo.dart';
 import 'package:exercise1/repo/startup_entity.dart';
 import 'package:exercise1/ui/app_state/app_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:exercise1/ui/common/starter_bloc.dart';
 
 import 'name_picker_presentation_model.dart';
 import 'name_picker_use_case_output.dart';
 
-class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
+class NamePickerUseCase with StarterBloc<NamePickerUseCaseOutput> {
   final Repo _repo;
   final AppState _appState;
 
@@ -15,8 +15,7 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
   final _pageSize = 5;
   int? _selectedOrdinal;
 
-  NamePickerUseCase(this._repo, this._appState)
-      : super(NamePickerUseCaseOutput.presentLoading());
+  NamePickerUseCase(this._repo, this._appState);
 
   Future<void> eventReady() async {
     _appState.suggestionList = [];
@@ -65,8 +64,13 @@ class NamePickerUseCase extends Cubit<NamePickerUseCaseOutput> {
   }
 
   void eventShowName() {
-    _refreshPresentation(); //to thwart the Cubit from squelching duplicates (if show selection if pressed twice)
     _refreshPresentation(
         selectedName: _appState.suggestionList[_selectedOrdinal!].startupName);
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 }

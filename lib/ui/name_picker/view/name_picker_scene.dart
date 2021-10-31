@@ -1,3 +1,4 @@
+import 'package:exercise1/ui/common/bloc_builder_data.dart';
 import 'package:exercise1/ui/common/constants.dart';
 import 'package:exercise1/ui/common/loading_overlay.dart';
 import 'package:exercise1/ui/common/waiting_overlay.dart';
@@ -7,7 +8,6 @@ import 'package:exercise1/ui/name_picker/view/ex1_radio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_presenter.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_presenter_output.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NamePickerScene extends StatelessWidget {
   final NamePickerPresenter presenter;
@@ -24,7 +24,7 @@ class NamePickerScene extends StatelessWidget {
           backgroundColor: Constants.primaryColor,
           title: Text("Startup Names"),
         ),
-        body: BlocBuilder<NamePickerPresenter, NamePickerPresenterOutput>(
+        body: BlocBuilderData<NamePickerPresenter, NamePickerPresenterOutput>(
             bloc: presenter,
             builder: ((context, output) {
               return output.when(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:exercise1/ui/app_state/app_state.dart';
+import 'package:exercise1/ui/common/starter_bloc.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_presenter.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_presenter_output.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_view_model.dart';
@@ -116,25 +117,11 @@ void main() {
   });
 
   tearDown(() {
-    sut.close();
+    sut.dispose();
   });
 }
 
-class MockUseCase extends Mock implements NamePickerUseCase {
-  final streamController = StreamController<NamePickerUseCaseOutput>();
-
-  @override
-  Stream<NamePickerUseCaseOutput> get stream => streamController.stream;
-
-  @override
-  close() async {
-    streamController.sink.close();
-  }
-
-  @override
-  void emit(NamePickerUseCaseOutput state) {
-    streamController.sink.add(state);
-  }
+class MockUseCase extends Mock with StarterBloc<NamePickerUseCaseOutput> implements NamePickerUseCase {
 
   void emitItems() {
     emit(NamePickerUseCaseOutput.presentLoading());
