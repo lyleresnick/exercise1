@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:exercise1/ui/app_state/app_state.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_presenter.dart';
 import 'package:exercise1/ui/name_picker/presenter/name_picker_presenter_output.dart';
@@ -6,8 +8,7 @@ import 'package:exercise1/ui/name_picker/use_case/name_picker_presentation_model
 import 'package:exercise1/ui/name_picker/use_case/name_picker_use_case.dart';
 import 'package:exercise1/ui/name_picker/use_case/name_picker_use_case_output.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'unimplemented_repo.dart';
+import 'package:mocktail/mocktail.dart';
 
 const testString = "abracadabra";
 
@@ -20,25 +21,45 @@ void main() {
     sut = NamePickerPresenter(mockUseCase);
   });
 
-  test('sut calls useCase.eventReady', () async {
+  test('sut.eventReady calls useCase.eventReady', () async {
+    when(() => mockUseCase.eventReady()).thenAnswer((_) async => Future<void>.value(null));
+    verifyNever(() => mockUseCase.eventReady());
     sut.eventReady();
-    expect(mockUseCase.eventReadyCalled, equals(true));
+    verify(() => mockUseCase.eventReady()).called(1);
   });
 
-  test('sut calls useCase.eventGoDown', () async {
+  test('sut.eventGoDown calls useCase.eventGoDown', () async {
+    when(() => mockUseCase.eventGoDown()).thenReturn(null);
+    verifyNever(() => mockUseCase.eventGoDown());
     sut.eventGoDown();
-    expect(mockUseCase.eventGoDownCalled, equals(true));
+    verify(() => mockUseCase.eventGoDown()).called(1);
+  });
+
+  test('sut.eventGoUp calls useCase.eventGoUp', () async {
+    when(() => mockUseCase.eventGoUp()).thenReturn(null);
+    verifyNever(() => mockUseCase.eventGoUp());
+    sut.eventGoDown();
+    verify(() => mockUseCase.eventGoDown()).called(1);
   });
 
   final _testOrdinal = 6;
-  test('sut calls useCase.eventNameSelected', () async {
+  test('sut.eventNameSelected calls useCase.eventNameSelected and sets ordinal', () async {
+    when(() => mockUseCase.eventNameSelected(_testOrdinal)).thenReturn(null);
     sut.eventNameSelected(_testOrdinal);
-    expect(mockUseCase.eventNameSelectedOrdinal, equals(_testOrdinal));
+    final captured = verify(() => sut.eventNameSelected(captureAny())).captured;
+    expect(captured.last, equals(_testOrdinal));
   });
 
-  test('sut calls useCase.eventShowName', () async {
+  test('sut.eventShowName calls useCase.eventShowName', () async {
+    when(() => mockUseCase.eventShowName()).thenReturn(null);
     sut.eventShowName();
-    expect(mockUseCase.eventShowNameCalled, equals(true));
+    verify(() => mockUseCase.eventShowName()).called(1);
+  });
+
+  test('sut.eventMoreNames calls useCase.eventMoreNames', () async {
+    when(() => mockUseCase.eventMoreNames()).thenAnswer((_) async => Future<void>.value(null));
+    sut.eventMoreNames();
+    verify(() => mockUseCase.eventMoreNames()).called(1);
   });
 
   test('sut correctly converts output of useCase', () async {
@@ -99,43 +120,20 @@ void main() {
   });
 }
 
-class MockUseCase extends NamePickerUseCase {
-  MockUseCase() : super(UnimplementedRepo(), MockAppState());
-  bool eventReadyCalled = false;
-  bool eventGoDownCalled = false;
-  bool eventGoUpCalled = false;
-  bool eventMoreNamesCalled = false;
-  int? eventNameSelectedOrdinal;
-  bool eventShowNameCalled = false;
+class MockUseCase extends Mock implements NamePickerUseCase {
+  final streamController = StreamController<NamePickerUseCaseOutput>();
 
   @override
-  Future<void> eventReady() async {
-    eventReadyCalled = true;
+  Stream<NamePickerUseCaseOutput> get stream => streamController.stream;
+
+  @override
+  close() async {
+    streamController.sink.close();
   }
 
   @override
-  void eventGoDown() {
-    eventGoDownCalled = true;
-  }
-
-  @override
-  void eventGoUp() {
-    eventGoUpCalled = true;
-  }
-
-  @override
-  Future<void> eventMoreNames() async {
-    eventMoreNamesCalled = true;
-  }
-
-  @override
-  void eventNameSelected(int ordinal) {
-    eventNameSelectedOrdinal = ordinal;
-  }
-
-  @override
-  void eventShowName() {
-    eventShowNameCalled = true;
+  void emit(NamePickerUseCaseOutput state) {
+    streamController.sink.add(state);
   }
 
   void emitItems() {

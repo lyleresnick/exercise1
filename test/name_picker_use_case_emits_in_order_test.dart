@@ -1,11 +1,12 @@
+import 'package:exercise1/repo/repo.dart';
 import 'package:exercise1/repo/startup_entity.dart';
 import 'package:exercise1/ui/name_picker/use_case/name_picker_presentation_model.dart';
 import 'package:exercise1/ui/name_picker/use_case/name_picker_use_case.dart';
 import 'package:exercise1/ui/name_picker/use_case/name_picker_use_case_output.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'test_app_state.dart';
-import 'unimplemented_repo.dart';
 
 void main() {
   late NamePickerUseCase sut;
@@ -19,6 +20,8 @@ void main() {
       .toList();
 
   setUp(() {
+    when(() => mockRepository.getMoreSuggestions()).thenAnswer((_) => Future.value(testData));
+
     sut = NamePickerUseCase(mockRepository, TestAppState.instance);
     stream = sut.stream;
   });
@@ -219,9 +222,6 @@ final testData = [
   StartupEntity(id: "19", startupName: "Name19"),
 ];
 
-class MockRepo extends UnimplementedRepo {
-  @override
-  Future<List<StartupEntity>> getMoreSuggestions() {
-    return Future.value(testData);
-  }
-}
+
+class MockRepo extends Mock implements Repo {}
+
